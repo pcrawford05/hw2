@@ -16,35 +16,24 @@ std::string convToLower(std::string src)
 std::set<std::string> parseStringToWords(string rawWords)
 {
     std::set<std::string> retSet{};
+    repPunctWithSpaces(rawWords);
     stringstream ss(rawWords);
-    string temp = "";
+    string keyWord = "";
     while(!ss.fail()){
-        ss >> temp;
-        if(temp.size() < 2)
-            continue;
-        bool hasPunct = false;
-        for(size_t i = 0; i < temp.size(); i++){
-            if(ispunct(temp[i])){ //Checks if any character is punctuation, assumes there's only one punctuation
-                hasPunct = true;
-                if(i > 1)
-                    retSet.insert(temp.substr(0,i));
-                if(i + 1 < temp.size())
-                    retSet.insert(temp.substr(i+1, temp.size()));
-                break;
-            }
-        }
-        if(!hasPunct)
-            retSet.insert(temp);
+        ss >> keyWord;
+        if(keyWord.size() >= 2)
+            retSet.insert(keyWord);
     }
     return retSet;
 
+}
 
-
-
-
-
-
-
+//Replaces the punctuation in a string with spaces
+void repPunctWithSpaces(string& str){
+    for(size_t i = 0; i < str.size(); i++){
+        if(ispunct(str[i]))
+            str[i] = ' ';
+    }
 }
 
 /**************************************************
