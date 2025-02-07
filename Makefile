@@ -23,6 +23,8 @@ product_parser.o: product_parser.cpp product_parser.h product.h
 util.o: util.cpp util.h
 	$(CXX) $(CXXFLAGS) $(DEFS) -o $@ -c util.cpp
 
+test: util.cpp util.h test.cpp
+	$(CXX) $(CXXFLAGS) util.cpp test.cpp -o test
 
 clean:
 	rm -f *.o amazon

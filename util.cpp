@@ -15,8 +15,28 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
-
-
+    std::set<std::string> retSet{};
+    stringstream ss(rawWords);
+    string temp = "";
+    while(!ss.fail()){
+        ss >> temp;
+        if(temp.size() < 2)
+            continue;
+        bool hasPunct = false;
+        for(size_t i = 0; i < temp.size(); i++){
+            if(ispunct(temp[i])){ //Checks if any character is punctuation, assumes there's only one punctuation
+                hasPunct = true;
+                if(i > 1)
+                    retSet.insert(temp.substr(0,i));
+                if(i + 1 < temp.size())
+                    retSet.insert(temp.substr(i+1, temp.size()));
+                break;
+            }
+        }
+        if(!hasPunct)
+            retSet.insert(temp);
+    }
+    return retSet;
 
 
 
@@ -33,7 +53,7 @@ std::set<std::string> parseStringToWords(string rawWords)
 
 // Used from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim from start
-std::string &ltrim(std::string &s) {
+/*std::string &ltrim(std::string &s) {
     s.erase(s.begin(), 
 	    std::find_if(s.begin(), 
 			 s.end(), 
@@ -55,3 +75,4 @@ std::string &rtrim(std::string &s) {
 std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
+*/
