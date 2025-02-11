@@ -5,7 +5,7 @@
 #include "util.h"
 
 using namespace std;
-std::string convToLower(std::string src)
+std::string& convToLower(std::string& src)
 {
     std::transform(src.begin(), src.end(), src.begin(), ::tolower);
     return src;
@@ -16,12 +16,12 @@ std::string convToLower(std::string src)
 std::set<std::string> parseStringToWords(string rawWords)
 {
     std::set<std::string> retSet{};
-    repPunctWithSpaces(rawWords);
+    repPunctWithSpaces(convToLower(rawWords)); //Makes sure we change case so there's no issues with that
     stringstream ss(rawWords);
     string keyWord = "";
     while(!ss.fail()){
         ss >> keyWord;
-        if(keyWord.size() >= 2)
+        if(keyWord.size() >= 2) //Makes sure the string size is at least 2 to match criteria
             retSet.insert(keyWord);
     }
     return retSet;
@@ -31,7 +31,7 @@ std::set<std::string> parseStringToWords(string rawWords)
 //Replaces the punctuation in a string with spaces
 void repPunctWithSpaces(string& str){
     for(size_t i = 0; i < str.size(); i++){
-        if(ispunct(str[i]))
+        if(ispunct(str[i])) //Returns true if this char is punctuation
             str[i] = ' ';
     }
 }
@@ -42,21 +42,19 @@ void repPunctWithSpaces(string& str){
 
 // Used from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim from start
-/*std::string &ltrim(std::string &s) {
-    s.erase(s.begin(), 
-	    std::find_if(s.begin(), 
-			 s.end(), 
-			 std::not1(std::ptr_fun<int, int>(std::isspace))));
+// trim from start (in place)
+std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
     return s;
 }
 
-// trim from end
+// trim from end (in place)
 std::string &rtrim(std::string &s) {
-    s.erase(
-	    std::find_if(s.rbegin(), 
-			 s.rend(), 
-			 std::not1(std::ptr_fun<int, int>(std::isspace))).base(), 
-	    s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
     return s;
 }
 
@@ -64,4 +62,3 @@ std::string &rtrim(std::string &s) {
 std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
-*/

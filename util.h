@@ -11,22 +11,22 @@
  *  Both functions should run in time O(n*log(n)) and not O(n^2)
  */
 template <typename T>
-std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
+std::set<T> setIntersection(std::set<T> s1, std::set<T> s2)
 {
     std::set<T> retSet = {};
     for(typename std::set<T>::iterator it = s1.begin(); it != s1.end(); ++it){
-        if(s2.find(*it) != s2.end())
+        if(s2.find(*it) != s2.end()) //Checks if item is in both
             retSet.insert(*it);
     }
     return retSet;
 }
 
 template <typename T>
-std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
+std::set<T> setUnion(std::set<T> s1, std::set<T> s2)
 {
     std::set<T> retSet = s2;
     for(typename std::set<T>::iterator it = s1.begin(); it != s1.end(); ++it){
-        retSet.insert(*it);
+        retSet.insert(*it); //Sets disallow repeats so we can just insert everything
     }
     return retSet;
 }
@@ -37,7 +37,7 @@ std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 
 void repPunctWithSpaces(std::string& str);
 
-std::string convToLower(std::string src);
+std::string& convToLower(std::string& src);
 
 std::set<std::string> parseStringToWords(std::string line);
 
