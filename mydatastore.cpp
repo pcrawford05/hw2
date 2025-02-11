@@ -50,13 +50,16 @@ std::string MyDataStore::cartToString(size_t user_idx){
 }
 
 void MyDataStore::buyCart(size_t user_idx){
-    std::queue<Product*> q = carts_[user_idx]; //Make a copy so that we can iterate through
+    std::queue<Product*>& q = carts_[user_idx]; //Renaming for ease of use
     User*& u = users_[user_idx]; //Renaming for ease of use
-    while(!q.empty()){
+    size_t size = q.size(); //Needed because the size changes
+    for(size_t i = 0; i < size; i++){
         if(q.front()->getQty() > 0 && q.front()->getPrice() <= u->getBalance()){
             q.front()->subtractQty(1);
             u->deductAmount(q.front()->getPrice());
         }
+        else
+          q.push(q.front());//If we can't buy we just move it to the back
         q.pop();
     }
 }

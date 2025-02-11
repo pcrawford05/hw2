@@ -104,10 +104,10 @@ int main(int argc, char* argv[])
 	    /* Add support for other commands here */
             else if ( cmd == "ADD") {
                 string uname; ss >> uname;
-                int hit_idx; ss >> hit_idx;
+                int hit_idx; ss >> hit_idx; hit_idx--; //Need to decrease for the user's POV
                 int u_idx = ds.isValidUsername(uname);
                 if(!ss.fail() && hit_idx >= 0 && size_t(hit_idx) < hits.size() && u_idx != -1){
-                    ds.addToCart(hits[hit_idx], u_idx);
+                    ds.addToCart(hits[hit_idx], u_idx); //Adds item to cart
                 } else
                     cout << "Invalid request" << endl;
             }
@@ -115,17 +115,17 @@ int main(int argc, char* argv[])
                 string uname; ss >> uname;
                 int u_idx = ds.isValidUsername(uname);
                 if(!ss.fail() && u_idx != -1) {
-                    cout << ds.cartToString(u_idx);
+                    cout << ds.cartToString(u_idx); //Prints out the items in the cart
                 } else
-                    cout << "Invalid request" << endl;
+                    cout << "Invalid username" << endl;
             }
             else if ( cmd == "BUYCART") {
                 string uname; ss >> uname;
                 int u_idx = ds.isValidUsername(uname);
                 if(!ss.fail() && u_idx != -1) {
-                    ds.buyCart(u_idx);
+                    ds.buyCart(u_idx); //Attempts to buy all the items in the cart
                 } else
-                    cout << "Invalid request" << endl;
+                    cout << "Invalid username" << endl;
             }
 
             else {
